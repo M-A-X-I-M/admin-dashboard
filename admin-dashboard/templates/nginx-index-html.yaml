@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-pages
+data:
+  index.html: |-
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Admin-Dashboard</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        
+        body {
+          font-family: arial;
+          max-width: 1500px;
+          margin: 0 auto;
+          padding: 25px;
+          background-color: #191919;
+          color: white;
+          font-size: 20px;
+        }
+        
+        .logo {
+          margin: 50px 0px 150px 0px;
+          max-width: 500px;
+        }
+        
+        .button {
+          background-color: #4E4E4E;
+          border: none;
+          color: #191919;
+          padding: 16px 12px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 5px 3px;
+          border-radius: 5px;
+          font-weight: bold;
+        }
+    
+        .button:hover {
+          box-shadow: 1px 1px 13px 4px rgba(249, 242, 242, 0.35);
+          color: white;
+        }
+
+        .footer-a{
+            border: 2px solid white;
+            padding: 16px 12px;
+            border-radius: 5px;
+            background-color: transparent;
+            height: 40px;
+            width: 200px;
+            color: #FF3535;
+            font-size: 30px;
+        }
+        .footer-p{
+            margin-top: 100px;
+        }
+
+        
+        footer-a:link { text-decoration: none; }
+        footer-a:visited { text-decoration: none; }
+        footer-a:hover { text-decoration: underline; }
+        footer-a:active { text-decoration: none; }
+
+      </style>
+    </head>
+    <body>
+      <center>
+        <p class="logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png" width="100%" height="auto" />
+        </p>
+        <a class="button" style="background-color: #C3BC0E;" target="_blank" href="link-to-app1">button-name-for-app1</a>
+        <a class="button" style="background-color: #C3BC0E;" target="_blank" href="link-to-app2">button-name-for-app2</a>
+        <a class="button" style="background-color: #C3BC0E;" target="_blank" href="link-to-app3">button-name-for-app3</a>
+        <p class="footer-p"><a class="footer-a" style="color:#C3BC0E;">Admin-Dashboard Footer Name</a></p>
+      </center>
+    </body>
+    </html>

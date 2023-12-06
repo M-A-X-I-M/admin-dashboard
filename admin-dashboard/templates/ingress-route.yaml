@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: admin-dashboard-ingress
+spec:
+  rules:
+    - host: some.url  # Change this to your domain or host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-dashboard
+                port:
+                  number: {{ .Values.nginx.service.port }}  # Use the service port from values.yaml

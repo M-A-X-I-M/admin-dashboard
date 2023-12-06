@@ -1,0 +1,21 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: admin-dashboard-traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      # Change Host to your domain
+      match: Host(`some.url`) && PathPrefix(`/`)
+      middlewares:
+        - name: oauth2
+          namespace: traefik
+        - name: https-redirect
+          namespace: traefik
+        - name: security-header
+          namespace: traefik
+      services:
+        - name: admin-dashboard
+          port: {{ .Values.nginx.service.port }} # Use the service port from values.yaml

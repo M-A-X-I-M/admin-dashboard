@@ -1,0 +1,38 @@
+nginx:
+  replicaCount: 1
+  image:
+    repository: nginxinc/nginx-unprivileged
+    imagePullPolicy: Always
+    tag: 1.25.3-alpine-slim
+  resources:
+    requests:
+        memory: "10Mi"
+        cpu: "1m"
+    limits:
+        memory: "10Mi"
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 101
+    runAsGroup: 101
+    fsGroup: 101
+    privileged: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+        - ALL
+  service:
+    port: 8080
+    type: ClusterIP
+  health:
+    port: 8080
+  ### Set to true for Traefik, false for Ingress ###
+  useTraefik: false
+  ### Options to enable/disable probes ###
+  probes:
+    # Set to false to disable liveness probe
+    enableLivenessProbe: true
+    # Set to false to disable readiness probe
+    enableReadinessProbe: true

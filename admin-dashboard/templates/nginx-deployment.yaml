@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Chart.Name }}
+spec:
+    selector:
+        matchLabels:
+            app: {{ .Chart.Name }}
+            release: {{ .Chart.Name }}
+    replicas: {{ default 2 .Values.nginx.replicaCount }}
+    template:
+        metadata:
+            # Annotations...
+            annotations:
+                # Calculate and set checksum for HTML content
+                htmlChecksum: {{ include (print $.Template.BasePath "/nginx-index-html.yaml") . | sha256sum }}
+            labels:
+                app: {{ .Chart.Name }}
+                release: {{ .Chart.Name }}
+        spec:
+            # Security Context...
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 12 }}
+            containers:
+                - name: {{ .Chart.Name }}
+                  # Container Image...
+                  image: {{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}
+                  imagePullPolicy: {{ default "IfNotPresent" .Values.nginx.image.imagePullPolicy }}
+                  resources:
+                    {{- toYaml .Values.nginx.resources | nindent 20 }}
+                  ports:
+                      # Define container port
+                      - name: app-internal
+                        containerPort: {{ .Values.nginx.service.port }}
+                  # Liveness Probe
+                  {{- if .Values.probes.enableLivenessProbe }}
+                  livenessProbe:
+                      httpGet:
+                          path:  "/"
+                          port: {{ .Values.nginx.service.port }}
+                      initialDelaySeconds: 60
+                      periodSeconds: 60
+                  {{- end }}
+                  # Readiness Probe
+                  {{- if .Values.probes.enableReadinessProbe }}
+                  readinessProbe:
+                      httpGet:
+                          path:  "/"
+                          port: {{ .Values.nginx.service.port }}
+                  {{- end }}
+                  # Volume Mounts...
+                  volumeMounts:
+                      - name: {{ .Chart.Name }}-pages
+                        mountPath: /usr/share/nginx/html
+                      - name: tmp
+                        mountPath: /tmp
+            # Volumes...
+            volumes:
+                - name: {{ .Chart.Name }}-pages
+                  configMap:
+                      name: {{ .Chart.Name }}-pages
+                - name: tmp
+                  emptyDir:
+                    sizeLimit: 500Mi
+# User's choice for routing
+{{- if .Values.useTraefik }}
+# If the user selects Traefik, include Traefik-specific routing
+{{ include "admin-dashboard.traefik-route" . | nindent 2 }}
+{{- else }}
+# If the user selects Ingress, include generic Ingress routing
+{{ include "admin-dashboard.ingress-route" . | nindent 2 }}
+{{- end }}
