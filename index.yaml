@@ -1,0 +1,9 @@
+apiVersion: v1
+entries:
+  admin-dashboard:
+  - apiVersion: v2
+    name: admin-dashboard
+    description: Helm chart for Admin Dashboard
+    urls:
+    - https://M-A-X-I-M.github.io/admin-dashboard/admin-dashboard-0.0.1.tgz
+    version: 0.0.1
