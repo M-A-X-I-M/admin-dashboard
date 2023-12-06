@@ -19,6 +19,6 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: packages/admin-dashboard-${{ steps.extract_version.outputs.VERSION }}.tgz
+          files: ./packages/admin-dashboard-${{ steps.extract_version.outputs.VERSION }}.tgz
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
