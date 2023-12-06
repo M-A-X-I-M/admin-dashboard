@@ -1,3 +1,16 @@
+# Admin Dashboard Helm Chart Repository
+
+This repository contains Helm charts for the Admin Dashboard application.
+
+## Usage
+
+### Adding the Helm Repository
+
+To add this Helm repository to your local Helm CLI, use the following command:
+
+```bash
+helm repo add admin-dashboard https://M-A-X-I-M.github.io/admin-dashboard/
+
 ## Configuration
 
 The following table lists the configurable parameters and their default values:
