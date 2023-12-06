@@ -12,9 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get version from tag
+        id: extract_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
+
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./packages/admin-dashboard-0.0.1.tgz # Update with the correct path to your .tgz file
+          files: ./admin-dashboard-${{ steps.extract_version.outputs.VERSION }}.tgz
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
