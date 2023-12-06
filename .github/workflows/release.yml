@@ -22,3 +22,4 @@ jobs:
           files: ./packages/admin-dashboard.tgz
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          token: ${{ secrets.admindashboard }} # Use your personal access token
