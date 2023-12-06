@@ -14,12 +14,12 @@ jobs:
 
       - name: Get version from tag
         id: extract_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#v}
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           files: ./packages/admin-dashboard.tgz
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
           token: ${{ secrets.admindashboard }} # Use your personal access token
