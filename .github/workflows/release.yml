@@ -14,7 +14,7 @@ jobs:
 
       - name: Get version from tag
         id: extract_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
+        run: echo ::set-output name=VERSION::${GITHUB_REF#v}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
